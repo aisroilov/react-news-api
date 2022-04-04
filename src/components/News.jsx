@@ -1,30 +1,26 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-
+import React from "react";
 import NewsItem from "./NewsItem";
-import NewsList from "./NewsList";
+import { Container, Row } from "react-bootstrap";
 
-const News = () => {
-  const [news, setNews] = useState([]);
-
-  function fetchNewsHandler() {
-    fetch(
-      "https://newsapi.org/v2/everything?q=bitcoin&apiKey=7376a1a3dba94f959ff8dc61327ba6a9"
-    )
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setNews(data.articles);
-        console.log(data.articles);
-      })
-      .catch();
-  }
-
+const News = (props) => {
   return (
     <>
-      <button onClick={fetchNewsHandler}>Fetch</button>
-      <NewsList news={news}></NewsList>
+      <Container className="mt-3 mb-3">
+        <Row>
+          {props.news.map((news) => (
+            <NewsItem
+              key={Math.random(1000)}
+              author={news.author}
+              description={news.description}
+              publishetAt={news.publishetAt}
+              source={news.source}
+              title={news.title}
+              url={news.url}
+              urlToImage={news.urlToImage}
+            ></NewsItem>
+          ))}
+        </Row>
+      </Container>
     </>
   );
 };

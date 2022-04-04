@@ -1,24 +1,34 @@
 import React, { useState } from "react";
 import {
   Container,
-  Row,
-  Col,
   Nav,
-  NavDropdown,
   FormControl,
   Button,
   Navbar,
-  Form,
+  InputGroup,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const MyNavbar = (props) => {
+  let searchText = "";
   const [linkSearchTerm, setLinkSearchTerm] = useState("");
 
   const SearchTermHandler = (event) => {
     setLinkSearchTerm(event.target.innerText);
-    console.log(event.target.innerText);
+    // console.log(event.target.innerText);
     props.handler(event.target.innerText);
+  };
+
+  const changeText = (q) => {
+    searchText = q;
+    // console.log(q);
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      setLinkSearchTerm(searchText);
+      props.handler(searchText);
+    }
   };
 
   return (
@@ -36,23 +46,23 @@ const MyNavbar = (props) => {
               navbarScroll
             >
               <Nav.Link onClick={SearchTermHandler}>Tesla</Nav.Link>
-              <Nav.Link href="#action1">Apple</Nav.Link>
-              <Nav.Link href="#action2">Samsung</Nav.Link>
-              <Nav.Link href="#action3">Asus</Nav.Link>
-              <Nav.Link href="#action4">Realme</Nav.Link>
-              <Nav.Link href="#action5">Canon</Nav.Link>
+              <Nav.Link onClick={SearchTermHandler}>Apple</Nav.Link>
+              <Nav.Link onClick={SearchTermHandler}>Samsung</Nav.Link>
+              <Nav.Link onClick={SearchTermHandler}>Asus</Nav.Link>
+              <Nav.Link onClick={SearchTermHandler}>Realme</Nav.Link>
+              <Nav.Link onClick={SearchTermHandler}>Canon</Nav.Link>
             </Nav>
-            <Form className="d-flex">
+            <InputGroup className="d-flex search-container">
               <FormControl
                 type="search"
                 placeholder="Search"
                 className="me-2"
                 aria-label="Search"
+                onChange={(e) => changeText(e.target.value)}
+                onKeyPress={handleKeyPress}
               />
-              <Button variant="outline-success" type="submit">
-                Search
-              </Button>
-            </Form>
+              <Button variant="outline-success">Search</Button>
+            </InputGroup>
           </Navbar.Collapse>
         </Container>
       </Navbar>
